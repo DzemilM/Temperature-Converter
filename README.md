@@ -28,4 +28,4 @@ No build step, no dependencies — it's plain HTML/CSS/JS.
 
 ## Project page
 
-[Project page](https://github.com/DzemilM/Temperature-Converter)
+[Project page](https://roadmap.sh/projects/temperature-converter)
