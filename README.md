@@ -28,5 +28,4 @@ No build step, no dependencies — it's plain HTML/CSS/JS.
 
 ## Project page
 
-<!-- Replace with the real challenge URL -->
-[Project page](REPLACE_WITH_PROJECT_URL)
+[Project page](https://github.com/DzemilM/Temperature-Converter)
