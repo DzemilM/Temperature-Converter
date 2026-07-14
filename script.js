@@ -1,5 +1,3 @@
-// ---- Grab the elements you'll need from the page ----
-// document.getElementById(...) gives you a reference to an element.
 const valueInput = document.getElementById("value");
 const fromSelect = document.getElementById("from");
 const toSelect = document.getElementById("to");
@@ -7,45 +5,35 @@ const convertBtn = document.getElementById("convert");
 const resultEl = document.getElementById("result");
 const form = document.getElementById("converter");
 
-// =====================================================================
-// TODO 1 — Enable the button only when all 3 fields are filled
-// ---------------------------------------------------------------------
-// Write a function, e.g. updateButton(), that:
-//   - checks whether valueInput has a value AND fromSelect has a value
-//     AND toSelect has a value
-//   - sets convertBtn.disabled to true or false accordingly
-//
-// Hints:
-//   - An input's current text is in `valueInput.value` (it's a string).
-//     An empty field is the empty string "".
-//   - A <select> where nothing real is chosen also has value "".
-//   - Then wire it up so it runs whenever a field changes:
-//       valueInput.addEventListener("input", updateButton);
-//       fromSelect.addEventListener("change", updateButton);
-//       toSelect.addEventListener("change", updateButton);
-// =====================================================================
+
+  function updateButton() {
+     valueInput.value && fromSelect.value && toSelect.value?
+     convertBtn.disabled = false : convertBtn.disabled = true;
+  }
+
+       valueInput.addEventListener("input", updateButton);
+       fromSelect.addEventListener("change", updateButton);
+       toSelect.addEventListener("change", updateButton);
 
 
-// =====================================================================
-// TODO 2 — Convert and show the result
-// ---------------------------------------------------------------------
-// When the form is submitted:
-//   1. Prevent the page from reloading  ->  event.preventDefault()
-//   2. Read the number:  Number(valueInput.value)
-//   3. Read the units:   fromSelect.value  and  toSelect.value
-//   4. Convert from -> to and show it in resultEl.textContent
-//
-// Conversion strategy (the clean way): convert ANY unit to Celsius
-// first, then from Celsius to the target unit. That's 4 formulas total
-// instead of 9.
-//
-//   To Celsius:
-//     fahrenheit -> celsius:  (f - 32) * 5 / 9
-//     kelvin     -> celsius:  k - 273.15
-//   From Celsius:
-//     celsius -> fahrenheit:  c * 9 / 5 + 32
-//     celsius -> kelvin:      c + 273.15
-//
-// Wire it up:
-//   form.addEventListener("submit", function (event) { ... });
-// =====================================================================
+ form.addEventListener("submit", function (event) { 
+    event.preventDefault();
+    const temp = Number(valueInput.value);
+    const from = fromSelect.value;
+    const to = toSelect.value;
+
+    // STEP 1 — get to the hub. Start by assuming it's already Celsius,
+    // then override if it's actually F or K.
+    let celsius;
+    if (from === "celsius")         celsius = temp;
+    else if (from === "fahrenheit") celsius = ((temp - 32) * 5 / 9);
+    else if (from === "kelvin")     celsius = (temp - 273.15);
+
+    // STEP 2 — leave the hub toward the target unit.
+    let result;
+    if (to === "celsius")         result = celsius;
+    else if (to === "fahrenheit") result = (celsius * 9 / 5 + 32);
+    else if (to === "kelvin")     result = (celsius + 273.15);
+
+    resultEl.textContent = `${temp} ${from} is ${result.toFixed(2)} ${to}`;
+});
